@@ -1,0 +1,7 @@
+{
+  "IP_ADRESS": "10.0.0.100",
+  "SIMULATOR": true,
+  "BSCAN_LENGTH": 50.0,
+  "X_AXIS": true,
+  "WORK_FOLDER": "test"
+}

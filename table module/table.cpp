@@ -24,7 +24,6 @@ void Table::setIP(string new_value) {
 	TABLE_IP = new_value;
 }
 
-
 void Table::ErrorsHandler(const char* ErrorMessage, BOOL fCloseComm)
 {
 	printf(ErrorMessage);
@@ -33,12 +32,10 @@ void Table::ErrorsHandler(const char* ErrorMessage, BOOL fCloseComm)
 	_getch();
 };
 
-
 bool Table::IS_CONNECTED()
 {
 	return connected;
 }
-
 
 int Table::connect(bool SIMULATOR)
 {
@@ -67,7 +64,7 @@ int Table::connect(bool SIMULATOR)
 		// Opening communication with real controller via Ethernet
 		printf("Application opens communication with the controller via ethernet and\n");
 		printf("sends some commands to the controller using SPiiPlus C Library functions\n\n");
-		printf("Wait for opening of communication with the \controller...\n");
+		printf("Wait for opening of communication with the controller...\n");
 		//10.0.0.100- default IP address of the controller
 		//for the point to point connection to the controller
 	
@@ -92,20 +89,64 @@ int Table::connect(bool SIMULATOR)
 
 }
 
-
 int Table::enable_x_motor()
 {
 	int status = acsc_Enable(hComm, ACSC_AXIS_0, NULL);
-	if(status==0)
+	if(status)
 	{ 
 		setXMotorOn(true);
-		printf("ATTENTION!!!	X AXIS   MOTOR  HAS BEEN SWITCHED ON!!! ");
+		printf("ATTENTION!!!	X AXIS   MOTOR  HAS BEEN SWITCHED ON!!! \n");
 		return 0;
 	}
 	else
 	{
 		cout << "x axis motor enabling error! Status: " << status << endl;
 		return -1;
+	}
+}
+
+int Table::disable_x_motor()
+{
+	int status = acsc_Disable(hComm, ACSC_AXIS_0, NULL);
+	if(status)
+	{ 
+		setXMotorOn(false);
+		printf("X AXIS   MOTOR  disabled \n");
+		return 0;
+	}
+	else
+	{
+		cout << "ATTENTION!!! DISABLING ERROR!!!	X AXIS   MOTOR  still WORKS!! " << status << endl;
+		return -1;
+	}
+}
+
+double Table::get_x_position()
+{
+	double XPOS;
+	if (acsc_GetFPosition(hComm, ACSC_AXIS_0, &XPOS, NULL))
+	{
+		return XPOS;
+	}
+	else
+	{
+		printf("Getting x position error");
+		return 0;
+	}
+}
+
+
+double Table::get_y_position()
+{
+	double YPOS;
+	if (acsc_GetFPosition(hComm, ACSC_AXIS_1, &YPOS, NULL))
+	{
+		return YPOS;
+	}
+	else
+	{
+		printf("Getting y position error");
+		return 0;
 	}
 }
 

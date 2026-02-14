@@ -17,30 +17,33 @@ public:          // публичный интерфейс
 	int disable_x_motor();
 	int enable_y_motor();
 	int disable_y_motor();
+	double get_x_position();
+	double get_y_position();
+
+
 
 	// Геттеры (get)
 	bool getXMotorOn() const { return X_MOTOR_ON; }
 	bool getYMotorOn() const { return Y_MOTOR_ON; }
-	double getXPosition() const { return X_POSITION; }
-	double getYPosition() const { return Y_POSITION; }
+	double getX_HOME_POSITION() const { return X_HOME_POSITION; }
+	double getY_HOME_POSITION() const { return Y_HOME_POSITION; }
 
 	// Сеттеры (set)
 	void setXMotorOn(bool state) { X_MOTOR_ON = state; }
 	void setYMotorOn(bool state) { Y_MOTOR_ON = state; }
-	void setXPosition(double pos) { X_POSITION = pos; }
-	void setYPosition(double pos) { Y_POSITION = pos; }
+	void setX_HOME_POSITION(double state) { X_HOME_POSITION = state; }
+	void setY_HOME_POSITION(double state) { Y_HOME_POSITION = state; }
+
 
 
 	// Свойства
-	
-
 private:         // приватные данные
 	string TABLE_IP;    // поле класса
 	HANDLE hComm;
 	bool X_MOTOR_ON;
 	bool Y_MOTOR_ON;
-	double X_POSITION;
-	double Y_POSITION;
+	double X_HOME_POSITION;
+	double Y_HOME_POSITION;
 	bool connected = false;
 	void ErrorsHandler(const char* ErrorMessage, BOOL fCloseComm);
 

@@ -89,6 +89,8 @@ int Table::connect(bool SIMULATOR)
 
 }
 
+
+
 int Table::enable_x_motor()
 {
 	int status = acsc_Enable(hComm, ACSC_AXIS_0, NULL);
@@ -135,7 +137,6 @@ double Table::get_x_position()
 	}
 }
 
-
 double Table::get_y_position()
 {
 	double YPOS;
@@ -147,6 +148,43 @@ double Table::get_y_position()
 	{
 		printf("Getting y position error");
 		return 0;
+	}
+}
+
+bool Table::x_moving()
+{
+	int State;
+	if (!acsc_GetMotorState(hComm, ACSC_AXIS_0, &State, NULL))
+	{
+		ErrorsHandler("get motor state error.\n", TRUE);
+		return false;
+	}
+	return State & ACSC_MST_MOVE;
+}
+
+bool Table::y_moving()
+{
+	int State;
+	if (!acsc_GetMotorState(hComm, ACSC_AXIS_1, &State, NULL))
+	{
+		ErrorsHandler("get motor state error.\n", TRUE);
+		return false;
+	}
+	return State & ACSC_MST_MOVE;
+}
+
+int Table::x_move_from_home_to(double point)
+{
+	double newPosition = getX_HOME_POSITION() + point;
+	if (acsc_ToPoint(hComm, 0, ACSC_AXIS_0, point, NULL))
+	{
+		printf("ATTENTION!!!	X AXIS   MOTOR  IS  SET TO MOVE TO POSITION %f\r \n", newPosition);
+		return 0;
+	}
+	else
+	{
+		printf("Some error occured while using acsc_ToPoint command \n");
+		return -1;
 	}
 }
 

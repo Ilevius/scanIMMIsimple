@@ -1,7 +1,17 @@
 {
-  "IP_ADRESS": "10.0.0.100",
-  "SIMULATOR": true,
-  "BSCAN_LENGTH": 50.0,
-  "X_AXIS": true,
-  "WORK_FOLDER": "test"
+  "COMMON": { 
+    "WORK_FOLDER": "test"
+  },
+  "TABLE": {
+    "IP_ADRESS": "10.0.0.100",
+    "SIMULATOR": true,
+    "Y_AXIS": true,
+    "X_MIN": -145,
+    "Y_MIN": -145,
+    "X_MAX": 145,
+    "Y_MAX": 145
+  },
+  "SCAN": {
+    "LENGTH": 50.0
+  }
 }

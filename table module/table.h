@@ -19,7 +19,10 @@ public:          // публичный интерфейс
 	int disable_y_motor();
 	double get_x_position();
 	double get_y_position();
-
+	bool x_moving();
+	bool y_moving();
+	int x_move_from_home_to(double point);
+	int y_move_from_home_to(double point);
 
 
 	// Геттеры (get)

@@ -1,3 +1,4 @@
+#include "../settings module/settings.h"
 #include <string>
 #include "C:\Program Files (x86)\ACS Motion Control\SPiiPlus ADK Suite v3.02\ACSC\C_CPP\ACSC.h"
 #pragma once  // защита от повторного включения
@@ -6,13 +7,11 @@ using namespace std;
 class Table {  // имя класса с большой буквы
 public:          // публичный интерфейс
 				 // Конструктор
-	Table(string value);
+	Table();
 
 	// Методы
-	string getIP() const;
-	void setIP(string new_value);
 	bool IS_CONNECTED();
-	int connect(bool SIMULATOR);
+	int connect();
 	int enable_x_motor();
 	int disable_x_motor();
 	int enable_y_motor();
@@ -41,7 +40,6 @@ public:          // публичный интерфейс
 
 	// Свойства
 private:         // приватные данные
-	string TABLE_IP;    // поле класса
 	HANDLE hComm;
 	bool X_MOTOR_ON;
 	bool Y_MOTOR_ON;

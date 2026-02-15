@@ -1,11 +1,7 @@
 #pragma once
 #include <string>
 #include "json.hpp"
-
 using namespace std;
-
-
-
 
 
 class Common_settings {
@@ -62,16 +58,22 @@ public:
 
 	double getLength() const { return length_; }
 	void setLength(double v) { length_ = v; }
+	double getNpoints() const { return NPOINTS_; }
+	void setNpoints(int v) { NPOINTS_ = v; }
 
 
 
 private:
 	double length_ = 0.0;
+	int NPOINTS_ = 0;
 };
 
 class Config {
 public:
-	Config() = default;
+	static Config& instance();
+
+	bool loadFromFile(const std::string& filename = "settings.json");
+	bool saveToFile(const std::string& filename = "settings.json");
 
 	const Common_settings& getCommon_settings() const { return Common_settings_; }
 	void setCommon(const Common_settings& c) { Common_settings_ = c; }
@@ -82,45 +84,26 @@ public:
 	const Scan_settings& getScan_settings() const { return Scan_settings_; }
 	void setScan_settings(const Scan_settings& s) { Scan_settings_ = s; }
 
-
-
 private:
+	Config() = default;
+	Config(const Config&) = delete;
+	Config& operator=(const Config&) = delete;
+
 	Common_settings Common_settings_;
 	Table_settings  Table_settings_;
 	Scan_settings   Scan_settings_;
 };
 
 
-
 // только объ€влени€ функций конверсии
-
-
 	void to_json(nlohmann::json& j, const Config& c);
 	void from_json(const nlohmann::json& j, Config& c);
 
 	void to_json(nlohmann::json& j, const Scan_settings& s);
 	void from_json(const nlohmann::json& j, Scan_settings& s);
 
-
 	void to_json(nlohmann::json& j, const Table_settings& t);
 	void from_json(const nlohmann::json& j, Table_settings& t);
 
-
 	void to_json(nlohmann::json& j, const Common_settings& c);
 	void from_json(const nlohmann::json& j, Common_settings& c);
-
-
-
-//struct Config {
-//	string IP_ADRESS = "";
-//	bool SIMULATOR = true;
-//	double BSCAN_LENGTH = 0.0;      
-//	bool X_AXIS = false;        
-//	string WORK_FOLDER = "wasn't read";   
-//	void load(const string& filename = "settigngs.json");
-//};
-//
-//extern Config SETTINGS;
-//
-//
-//

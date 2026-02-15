@@ -12,6 +12,7 @@
     "Y_MAX": 145
   },
   "SCAN": {
-    "LENGTH": 50.0
+    "LENGTH": 90.0,
+    "NPOINTS": 200
   }
 }

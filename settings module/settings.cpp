@@ -5,11 +5,6 @@
 
 using json = nlohmann::json;
 
-
-
-
-
-
 // Common
 void to_json(json& j, const Common_settings& c) {
 	j = json{
@@ -47,12 +42,16 @@ void from_json(const json& j, Table_settings& t) {
 // Scan
 void to_json(json& j, const Scan_settings& s) {
 	j = json{
-		{ "LENGTH", s.getLength() }
+		{ 
+			"LENGTH", s.getLength(),
+			"NPOINTS", s.getNpoints()
+		}
 	};
 }
 
 void from_json(const json& j, Scan_settings& s) {
 	s.setLength(j.at("LENGTH").get<double>());
+	s.setNpoints(j.at("NPOINTS").get<int>());
 }
 
 // Config (вложенные классы)
@@ -71,41 +70,40 @@ void from_json(const json& j, Config& c) {
 }
 
 
+// Singleton
+Config& Config::instance() {
+	static Config cfg;
+	static bool loaded = cfg.loadFromFile();  // автозагрузка
+	return cfg;
+}
 
+// Загрузка
+bool Config::loadFromFile(const std::string& filename) {
+	std::ifstream in(filename);
+	if (!in.is_open()) {
+		return false;  // файл не найден — дефолты
+	}
 
+	try {
+		json j;
+		in >> j;
+		from_json(j, *this);
+		return true;
+	}
+	catch (...) {
+		return false;
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Config SETTINGS;
-//
-//void Config::load(const std::string& filename)
-//{
-//	std::ifstream file("settings.json");
-//	json config = json::parse(file);
-//	IP_ADRESS = config["IP_ADRESS"];      // THE LENGTH OF BSCAN SEGMENT
-//	SIMULATOR = config["SIMULATOR"];      // THE LENGTH OF BSCAN SEGMENT
-//	BSCAN_LENGTH = config["BSCAN_LENGTH"];      // THE LENGTH OF BSCAN SEGMENT
-//	X_AXIS = config["X_AXIS"];        // true
-//	WORK_FOLDER = config["WORK_FOLDER"];   // "test"
-//}
+// Сохранение
+bool Config::saveToFile(const std::string& filename) {
+	try {
+		json j = *this;
+		std::ofstream out(filename);
+		out << j.dump(4);
+		return true;
+	}
+	catch (...) {
+		return false;
+	}
+}

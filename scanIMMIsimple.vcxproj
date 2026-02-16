@@ -72,12 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(IncludePath)</IncludePath>
-    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\IVI Foundation\VISA\Win64\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files\IVI Foundation\VISA\Win64\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -99,7 +102,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>"C:\Program Files (x86)\ACS Motion Control\SPiiPlus ADK Suite v3.02\ACSC\C_CPP\ACSCL_x86.LIB";%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"C:\Program Files (x86)\ACS Motion Control\SPiiPlus ADK Suite v3.02\ACSC\C_CPP\ACSCL_x86.LIB";"C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc\visa64.lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,6 +117,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>"C:\Program Files (x86)\ACS Motion Control\SPiiPlus ADK Suite v3.02\ACSC\C_CPP\ACSCL_x64.LIB";"C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc\visa64.lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,7 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="math module\math.h" />
-    <ClInclude Include="oscilloscope.h" />
+    <ClInclude Include="oscilloscope module\oscilloscope.h" />
     <ClInclude Include="settings module\settings.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="table module\table.h" />
@@ -162,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math module\math.cpp" />
+    <ClCompile Include="oscilloscope module\oscilloscope.cpp" />
     <ClCompile Include="scanIMMIsimple.cpp" />
     <ClCompile Include="settings module\settings.cpp" />
     <ClCompile Include="stdafx.cpp">

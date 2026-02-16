@@ -30,7 +30,7 @@
     <ClInclude Include="math module\math.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="oscilloscope.h">
+    <ClInclude Include="oscilloscope module\oscilloscope.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,6 +48,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="math module\math.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="oscilloscope module\oscilloscope.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

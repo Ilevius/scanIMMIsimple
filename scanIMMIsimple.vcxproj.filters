@@ -30,6 +30,9 @@
     <ClInclude Include="math module\math.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="oscilloscope.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

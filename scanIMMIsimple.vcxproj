@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="math module\math.h" />
+    <ClInclude Include="oscilloscope.h" />
     <ClInclude Include="settings module\settings.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="table module\table.h" />

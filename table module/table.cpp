@@ -100,6 +100,22 @@ int Table::enable_x_motor()
 	}
 }
 
+int Table::enable_y_motor()
+{
+	int status = acsc_Enable(hComm, ACSC_AXIS_1, NULL);
+	if(status)
+	{ 
+		setYMotorOn(true);
+		printf("ATTENTION!!!	Y AXIS   MOTOR  HAS BEEN SWITCHED ON!!! \n");
+		return 0;
+	}
+	else
+	{
+		cout << "y axis motor enabling error! Status: " << status << endl;
+		return -1;
+	}
+}
+
 int Table::disable_x_motor()
 {
 	int status = acsc_Disable(hComm, ACSC_AXIS_0, NULL);
@@ -112,6 +128,22 @@ int Table::disable_x_motor()
 	else
 	{
 		cout << "ATTENTION!!! DISABLING ERROR!!!	X AXIS   MOTOR  still WORKS!! " << status << endl;
+		return -1;
+	}
+}
+
+int Table::disable_y_motor()
+{
+	int status = acsc_Disable(hComm, ACSC_AXIS_1, NULL);
+	if(status)
+	{ 
+		setYMotorOn(false);
+		printf("Y AXIS   MOTOR  disabled \n");
+		return 0;
+	}
+	else
+	{
+		cout << "ATTENTION!!! DISABLING ERROR!!!	Y AXIS   MOTOR  still WORKS!! " << status << endl;
 		return -1;
 	}
 }
@@ -175,7 +207,7 @@ int Table::x_move_from_home_to(double point)
 	double XMAX = SETTINGS.getTable_settings().getXMax();
 
 	if (newPosition < XMAX && XMIN < newPosition) {
-		if (acsc_ToPoint(hComm, 0, ACSC_AXIS_0, point, NULL))
+		if (acsc_ToPoint(hComm, 0, ACSC_AXIS_0, newPosition, NULL))
 		{
 			printf("ATTENTION!!!	X AXIS   MOTOR  IS  SET TO MOVE TO POSITION %f\r \n", newPosition);
 			return 0;

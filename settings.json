@@ -13,6 +13,6 @@
   },
   "SCAN": {
     "LENGTH": 90.0,
-    "NPOINTS": 200
+    "NPOINTS": 10
   }
 }

@@ -54,12 +54,45 @@ void from_json(const json& j, Scan_settings& s) {
 	s.setNpoints(j.at("NPOINTS").get<int>());
 }
 
+
+// Oscilloscope
+void to_json(json& j, const Oscill_settings& o) {
+	j = json{
+		{ 
+			"HOR_SCALE", o.getHorScale(),
+			"PRECISION", o.getPrecision(),
+			"DATA_CH", o.getDataCh(),
+			"TRIG_CH", o.getTrigCh(),
+			"DATA_COUP", o.getDataCoup(),
+			"TRIG_MODE", o.getTrigMode(),
+			"TRIG_COUP", o.getTrigCoup(),
+			"TRIG_EDGE_LEVEL", o.getTrigEdgeLevel(),
+			"DATA_CH_SCALE", o.getDataChScale(),
+			"DEPMEM", o.getDepmem(),
+		}
+	};
+}
+
+void from_json(const json& j, Oscill_settings& o) {
+	o.setHorScale(j.at("HOR_SCALE").get<string>());
+	o.setPrecision(j.at("PRECISION").get<string>());
+	o.setDataCh(j.at("DATA_CH").get<string>());
+	o.setTrigCh(j.at("TRIG_CH").get<string>());
+	o.setDataCoup(j.at("DATA_COUP").get<string>());
+	o.setTrigMode(j.at("TRIG_MODE").get<string>());
+	o.setTrigCoup(j.at("TRIG_COUP").get<string>());
+	o.setTrigEdgeLevel(j.at("TRIG_EDGE_LEVEL").get<string>());
+	o.setDataChScale(j.at("DATA_CH_SCALE").get<string>());
+	o.setDepmem(j.at("DEPMEM").get<string>());
+}
+
 // Config (вложенные классы)
 void to_json(json& j, const Config& c) {
 	j = json{
 		{ "COMMON", c.getCommon_settings() },
 	{ "TABLE",  c.getTable_settings() },
-	{ "SCAN",   c.getScan_settings() }
+	{ "SCAN",   c.getScan_settings() },
+	{"OSCILLOSCOPE", c.getOscill_settings() }
 	};
 }
 
@@ -67,6 +100,7 @@ void from_json(const json& j, Config& c) {
 	c.setCommon(j.at("COMMON").get<Common_settings>());
 	c.setTable_settings(j.at("TABLE").get<Table_settings>());
 	c.setScan_settings(j.at("SCAN").get<Scan_settings>());
+	c.setOscill_settings(j.at("OSCILLOSCOPE").get<Oscill_settings>());
 }
 
 

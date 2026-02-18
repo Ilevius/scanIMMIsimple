@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="files module\files.h" />
     <ClInclude Include="math module\math.h" />
     <ClInclude Include="oscilloscope module\oscilloscope.h" />
     <ClInclude Include="settings module\settings.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="files module\files.cpp" />
     <ClCompile Include="math module\math.cpp" />
     <ClCompile Include="oscilloscope module\oscilloscope.cpp" />
     <ClCompile Include="scanIMMIsimple.cpp" />

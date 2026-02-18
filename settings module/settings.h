@@ -68,6 +68,53 @@ private:
 	int NPOINTS_ = 0;
 };
 
+class Oscill_settings {
+public:
+	Oscill_settings() = default;
+
+	const string getHorScale() const { return horScale_; }
+	void setHorScale(const std::string& v) { horScale_ = v; }
+
+	const string getPrecision() const { return precision_; }
+	void setPrecision(const std::string& v) { precision_ = v; }
+
+	const string getDataCh() const { return dataCh_; }
+	void setDataCh(const std::string& v) { dataCh_ = v; }
+
+	const string getTrigCh() const { return trigCh_; }
+	void setTrigCh(const std::string& v) { trigCh_ = v; }
+
+	const string getDataCoup() const { return dataCoup_; }
+	void setDataCoup(const std::string& v) { dataCoup_ = v; }
+
+	const string getTrigMode() const { return trigMode_; }
+	void setTrigMode(const std::string& v) { trigMode_ = v; }
+
+	const string getTrigCoup() const { return trigCoup_; }
+	void setTrigCoup(const std::string& v) { trigCoup_ = v; }
+
+	const string getTrigEdgeLevel() const { return trigEdgeLevel_; }
+	void setTrigEdgeLevel(const std::string& v) { trigEdgeLevel_ = v; }
+
+	const string getDataChScale() const { return dataChScale_; }
+	void setDataChScale(const std::string& v) { dataChScale_ = v; }
+
+	const string getDepmem() const { return depmem_; }
+	void setDepmem(const std::string& v) { depmem_ = v; }
+
+private:
+	string horScale_ = "";
+	string precision_ = "";	
+	string dataCh_ = "";
+	string trigCh_ = "";	
+	string dataCoup_ = "";
+	string trigMode_ = "";	
+	string trigCoup_ = "";
+	string trigEdgeLevel_ = "";	
+	string dataChScale_ = "";
+	string depmem_ = "";
+};
+
 class Config {
 public:
 	static Config& instance();
@@ -84,6 +131,9 @@ public:
 	const Scan_settings& getScan_settings() const { return Scan_settings_; }
 	void setScan_settings(const Scan_settings& s) { Scan_settings_ = s; }
 
+	const Oscill_settings& getOscill_settings() const { return Oscill_settings_; }
+	void setOscill_settings(const Oscill_settings& o) { Oscill_settings_ = o; }
+
 private:
 	Config() = default;
 	Config(const Config&) = delete;
@@ -92,6 +142,7 @@ private:
 	Common_settings Common_settings_;
 	Table_settings  Table_settings_;
 	Scan_settings   Scan_settings_;
+	Oscill_settings Oscill_settings_;
 };
 
 
@@ -104,6 +155,9 @@ private:
 
 	void to_json(nlohmann::json& j, const Table_settings& t);
 	void from_json(const nlohmann::json& j, Table_settings& t);
+
+	void to_json(nlohmann::json& j, const Oscill_settings& o);
+	void from_json(const nlohmann::json& j, Oscill_settings& o);
 
 	void to_json(nlohmann::json& j, const Common_settings& c);
 	void from_json(const nlohmann::json& j, Common_settings& c);

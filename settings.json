@@ -14,5 +14,17 @@
   "SCAN": {
     "LENGTH": 90.0,
     "NPOINTS": 10
+  },
+  "OSCILLOSCOPE": {
+    "HOR_SCALE": "500us",
+    "PRECISION": "8",
+    "DATA_CH": "CH1",
+    "TRIG_CH": "CH2",
+    "DATA_COUP": "AC",
+    "TRIG_MODE": "EDGE",
+    "TRIG_COUP": "DC",
+    "TRIG_EDGE_LEVEL": "1",
+    "DATA_CH_SCALE": "1v",
+    "DEPMEM": "1M"
   }
 }

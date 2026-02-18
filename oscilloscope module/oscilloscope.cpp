@@ -104,7 +104,7 @@ int Oscilloscope::setup()
 	Sleep(100);
 
 	command = ":HORIzontal:SCALe " + SETTINGS.getOscill_settings().getHorScale() + "\n";
-	viPrintf(DEVICE, ":ACQ:DEPMEM 1M\n");
+	viPrintf(DEVICE, ":ACQ:DEPMEM 100k\n");
 	Sleep(100);
 
 	command = ":HORIzontal:SCALe " + SETTINGS.getOscill_settings().getHorScale() + "\n";
@@ -307,11 +307,11 @@ bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
 
 
 	ViUInt32 bytes_read;
-	unsigned char read_buf[1000];
+	unsigned char read_buf[200099];
 	// 1. Начать чтение
 	viPrintf(DEVICE, ":WAV:BEG CH1\n");
 	// 2. Задать offset и size  
-	viPrintf(DEVICE, ":WAV:RANG 500000,150\n");
+	viPrintf(DEVICE, ":WAV:RANG 0,100000\n");
 	// 3. Читать данные
 	viPrintf(DEVICE, ":WAV:FETC?\n");
 
@@ -336,26 +336,12 @@ bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
 	const unsigned char* data_ptr = read_buf + 2 + n_digits;
 
 	for (size_t i = 0; i < data_len; i += 2) {
-		uint16_t raw16 = (data_ptr[i] << 8) | (data_ptr[i + 1] << 2);  // 16-бит слово
-
-		int16_t sample;
-		// Берём только младшие 14 бит (бит 0-13)
-		uint16_t raw14 = raw16 & 0xFFFC;  // маска 14 бит: 0011 1111 1111 1111
-										  //uint16_t mask14_high = 0xFFC0;
-
-										  // Расширение знака (если 14-й бит = 1)
-		//if (raw16 & 0x2000) {  // 14-й бит установлен
-		//	sample = raw14 | 0xC000;  // знаковое расширение до 16 бит
-		//}
-		//else {
-		//	sample = raw14;
-		//}
-		sample = raw14;
-
+		uint16_t raw16 = (data_ptr[i+1] << 8) | (data_ptr[i] );  // 16-бит слово
+		int16_t sample = (int16_t)(raw16 & 0x3FFF);	
 		waveform.push_back(sample);
 	}
 
 	viPrintf(DEVICE, ":WAV:END\n");
-	return waveform.size() == 150;
+	return waveform.size() == 100000;
 
 }

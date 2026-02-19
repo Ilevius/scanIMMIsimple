@@ -130,15 +130,16 @@ int Oscilloscope::ask_and_print_answer(ViConstString inquire)
 
 
 
-bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
+bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 
 	
 
 	auto& SETTINGS = Config::instance();
 	const int WANTED_TICKS = SETTINGS.getOscill_settings().getWantedTicks();
-	std::vector<int16_t> waveform_sum(WANTED_TICKS, 0);
+	const int AVE_NUM = SETTINGS.getScan_settings().getNave();
+	std::vector<int32_t> waveform_sum(WANTED_TICKS, 0);
 
-	for (int jj = 0; jj < 1; jj++)
+	for (int jj = 0; jj <AVE_NUM; jj++)
 	{
 		while (1) {
 			char status[16];
@@ -181,7 +182,6 @@ bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
 			uint16_t raw16 = (data_ptr[i + 1] << 8) | (data_ptr[i]);  // 16-бит слово
 			int16_t sample = (int16_t)(raw16 & 0x3FFF);
 			waveform_sum[i / 2] += sample;
-			waveform.push_back(sample);
 		}
 		viPrintf(DEVICE, ":WAV:END\n");
 	}
@@ -190,9 +190,9 @@ bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
 	
 
 	
-	//for (size_t i = 0; i < waveform_sum.size(); ++i) {
-	//	waveform.push_back(waveform_sum[i] );  
-	//}
+	for (size_t i = 0; i < waveform_sum.size(); ++i) {
+		waveform.push_back(waveform_sum[i] );  
+	}
 	return waveform.size() == WANTED_TICKS;
 
 }

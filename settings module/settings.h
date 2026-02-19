@@ -58,14 +58,17 @@ public:
 
 	double getLength() const { return length_; }
 	void setLength(double v) { length_ = v; }
-	double getNpoints() const { return NPOINTS_; }
+	int getNpoints() const { return NPOINTS_; }
 	void setNpoints(int v) { NPOINTS_ = v; }
+	int getNave() const { return NAVE_; }
+	void setNave(int v) { NAVE_ = v; }
 
 
 
 private:
 	double length_ = 0.0;
 	int NPOINTS_ = 0;
+	int NAVE_ = 50;
 };
 
 class Oscill_settings {

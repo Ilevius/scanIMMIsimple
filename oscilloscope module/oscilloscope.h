@@ -11,7 +11,7 @@ public:
 	int serial();
 	int setup();
 	int ask_and_print_answer(ViConstString inquiry);
-	bool readRawWaveform(std::vector<int16_t>& waveform);
+	bool readRawWaveform(std::vector<int32_t>& waveform);
 private:
 	ViSession DEVICE;
 	ViSession RESOURCE_MANAGER;

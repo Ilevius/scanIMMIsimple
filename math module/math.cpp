@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "math.h"
+#include "../settings module/settings.h"
 
 std::vector<double> generatePoints(double distance, int num_points) {
 	std::vector<double> points(num_points);
@@ -12,12 +13,14 @@ std::vector<double> generatePoints(double distance, int num_points) {
 	return points;
 }
 
-std::vector<double> rawDataToVolts(const std::vector<int16_t>& raw_data, double v_div) 
+std::vector<double> rawDataToVolts(const std::vector<int32_t>& raw_data, double v_div)
 {
+	auto& SETTINGS = Config::instance();
+	const int AVE_NUM = SETTINGS.getScan_settings().getNave();
 	std::vector<double> volts(raw_data.size());
 	for (size_t i = 0; i < raw_data.size(); i++) {
 		double x = raw_data[i];							// сырой отсчёт
-		volts[i] = (x-8192)/6400*v_div*2;				// Основная формула
+		volts[i] = (x/AVE_NUM -8192)/6400*v_div*2;				// Основная формула
 	}
 	return volts;
 }

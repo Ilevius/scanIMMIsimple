@@ -44,7 +44,8 @@ void to_json(json& j, const Scan_settings& s) {
 	j = json{
 		{ 
 			"LENGTH", s.getLength(),
-			"NPOINTS", s.getNpoints()
+			"NPOINTS", s.getNpoints(),
+			"AVE_NUM", s.getNave()
 		}
 	};
 }
@@ -52,6 +53,7 @@ void to_json(json& j, const Scan_settings& s) {
 void from_json(const json& j, Scan_settings& s) {
 	s.setLength(j.at("LENGTH").get<double>());
 	s.setNpoints(j.at("NPOINTS").get<int>());
+	s.setNave(j.at("AVE_NUM").get<int>());
 }
 
 

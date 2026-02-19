@@ -11,10 +11,6 @@ public:
 	int serial();
 	int setup();
 	int ask_and_print_answer(ViConstString inquiry);
-	int print_data();
-
-	int read_data();
-	size_t parseTMC(const char* buffer, size_t buf_len);
 	bool readRawWaveform(std::vector<int16_t>& waveform);
 private:
 	ViSession DEVICE;

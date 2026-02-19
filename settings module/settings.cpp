@@ -69,6 +69,7 @@ void to_json(json& j, const Oscill_settings& o) {
 			"TRIG_EDGE_LEVEL", o.getTrigEdgeLevel(),
 			"DATA_CH_SCALE", o.getDataChScale(),
 			"DEPMEM", o.getDepmem(),
+			"WANTED_TICKS", o.getWantedTicks(),
 		}
 	};
 }
@@ -84,6 +85,7 @@ void from_json(const json& j, Oscill_settings& o) {
 	o.setTrigEdgeLevel(j.at("TRIG_EDGE_LEVEL").get<string>());
 	o.setDataChScale(j.at("DATA_CH_SCALE").get<string>());
 	o.setDepmem(j.at("DEPMEM").get<string>());
+	o.setWantedTicks(j.at("WANTED_TICKS").get<int>());
 }
 
 // Config (вложенные классы)

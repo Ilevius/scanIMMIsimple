@@ -12,8 +12,8 @@ std::vector<double> generatePoints(double distance, int num_points) {
 	return points;
 }
 
-std::vector<double> rawDataToVolts(const std::vector<int16_t>& raw_data,
-	double x_zero, double v_div, int y_pos) {
+std::vector<double> rawDataToVolts(const std::vector<int16_t>& raw_data, double v_div) 
+{
 	std::vector<double> volts(raw_data.size());
 	for (size_t i = 0; i < raw_data.size(); i++) {
 		double x = raw_data[i];							// сырой отсчёт

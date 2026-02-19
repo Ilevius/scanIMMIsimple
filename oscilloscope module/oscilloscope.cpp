@@ -132,50 +132,70 @@ int Oscilloscope::ask_and_print_answer(ViConstString inquire)
 
 bool Oscilloscope::readRawWaveform(std::vector<int16_t>& waveform) {
 
-	while (1) {
-		char status[16];
-		viQueryf(DEVICE, ":TRIGger:STATus?\n", "%s", status);
-		if (strstr(status, "TRIG") || strstr(status, "TRIG")) break;  // Trigger Done
-		Sleep(5);
+	
+
+	auto& SETTINGS = Config::instance();
+	const int WANTED_TICKS = SETTINGS.getOscill_settings().getWantedTicks();
+	std::vector<int16_t> waveform_sum(WANTED_TICKS, 0);
+
+	for (int jj = 0; jj < 1; jj++)
+	{
+		while (1) {
+			char status[16];
+			viQueryf(DEVICE, ":TRIGger:STATus?\n", "%s", status);
+			if (strstr(status, "TRIG") ) break;  // Trigger Done
+			Sleep(5);
+		}
+
+
+		ViUInt32 bytes_read;
+		unsigned char read_buf[200100];
+		// 1. Начать чтение
+		viPrintf(DEVICE, ":WAV:BEG CH1\n");
+		// 2. Задать offset и size  
+		viPrintf(DEVICE, ":WAV:RANG 0,%s\n", std::to_string(WANTED_TICKS).c_str());
+		// 3. Читать данные
+		viPrintf(DEVICE, ":WAV:FETC?\n");
+
+		viRead(DEVICE, read_buf, sizeof(read_buf) - 1, &bytes_read);
+		read_buf[bytes_read] = '\0';
+
+		// 4. Парсинг TMC + int16... (без изменений)
+
+		if (bytes_read < 2 || read_buf[0] != '#') return false; // if answer contains less then 2 bytes or has no header
+		int n_digits = read_buf[1] - '0';						// amount of digits in data bytes number
+		if (bytes_read < 2 + n_digits) return false;			// if there is no data after header
+
+		std::string len_str((char*)read_buf + 2, n_digits);		// the string of data bytes number
+		size_t data_len = std::stoul(len_str);					// integer data bytes number
+
+		waveform.clear();										// result int16 vector clear and set legth
+		waveform.reserve(data_len / 2);
+
+
+
+		// Извлечение int16 из байтов (big-endian)
+		const unsigned char* data_ptr = read_buf + 2 + n_digits;
+
+		for (size_t i = 0; i < data_len; i += 2) {
+			uint16_t raw16 = (data_ptr[i + 1] << 8) | (data_ptr[i]);  // 16-бит слово
+			int16_t sample = (int16_t)(raw16 & 0x3FFF);
+			waveform_sum[i / 2] += sample;
+			waveform.push_back(sample);
+		}
+		viPrintf(DEVICE, ":WAV:END\n");
 	}
 
+	
+	
 
-	ViUInt32 bytes_read;
-	unsigned char read_buf[200099];
-	// 1. Начать чтение
-	viPrintf(DEVICE, ":WAV:BEG CH1\n");
-	// 2. Задать offset и size  
-	viPrintf(DEVICE, ":WAV:RANG 0,100000\n");
-	// 3. Читать данные
-	viPrintf(DEVICE, ":WAV:FETC?\n");
-
-	viRead(DEVICE, read_buf, sizeof(read_buf) - 1, &bytes_read);
-	read_buf[bytes_read] = '\0';
-
-	// 4. Парсинг TMC + int16... (без изменений)
-
-	if (bytes_read < 2 || read_buf[0] != '#') return false; // if answer contains less then 2 bytes or has no header
-	int n_digits = read_buf[1] - '0';						// amount of digits in data bytes number
-	if (bytes_read < 2 + n_digits) return false;			// if there is no data after header
-
-	std::string len_str((char*)read_buf + 2, n_digits);		// the string of data bytes number
-	size_t data_len = std::stoul(len_str);					// integer data bytes number
-
-	waveform.clear();										// result int16 vector clear and set legth
-	waveform.reserve(data_len / 2);
-
-
-
-	// Извлечение int16 из байтов (big-endian)
-	const unsigned char* data_ptr = read_buf + 2 + n_digits;
-
-	for (size_t i = 0; i < data_len; i += 2) {
-		uint16_t raw16 = (data_ptr[i+1] << 8) | (data_ptr[i] );  // 16-бит слово
-		int16_t sample = (int16_t)(raw16 & 0x3FFF);	
-		waveform.push_back(sample);
-	}
-
-	viPrintf(DEVICE, ":WAV:END\n");
-	return waveform.size() == 100000;
+	
+	//for (size_t i = 0; i < waveform_sum.size(); ++i) {
+	//	waveform.push_back(waveform_sum[i] );  
+	//}
+	return waveform.size() == WANTED_TICKS;
 
 }
+
+
+

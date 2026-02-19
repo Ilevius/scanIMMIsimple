@@ -23,8 +23,10 @@
     "DATA_COUP": "AC",
     "TRIG_MODE": "EDGE",
     "TRIG_COUP": "DC",
-    "TRIG_EDGE_LEVEL": "4",
+    "TRIG_EDGE_LEVEL": "3",
     "DATA_CH_SCALE": "5v",
-    "DEPMEM": "100k"
+    "DEPMEM": "100k",
+    "WANTED_TICKS": 100000,
+    "BURST_PERIOD": "3"
   }
 }

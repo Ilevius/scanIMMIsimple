@@ -102,6 +102,9 @@ public:
 	const string getDepmem() const { return depmem_; }
 	void setDepmem(const std::string& v) { depmem_ = v; }
 
+	const int getWantedTicks() const { return wantedTicks_; }
+	void setWantedTicks(const int v) { wantedTicks_ = v; }
+
 private:
 	string horScale_ = "";
 	string precision_ = "";	
@@ -113,6 +116,7 @@ private:
 	string trigEdgeLevel_ = "";	
 	string dataChScale_ = "";
 	string depmem_ = "";
+	int wantedTicks_ = 20000;
 };
 
 class Config {

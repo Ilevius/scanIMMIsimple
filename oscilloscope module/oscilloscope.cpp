@@ -129,15 +129,19 @@ int Oscilloscope::ask_and_print_answer(ViConstString inquire)
 }
 
 
-
 bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
-
-	
 
 	auto& SETTINGS = Config::instance();
 	const int WANTED_TICKS = SETTINGS.getOscill_settings().getWantedTicks();
 	const int AVE_NUM = SETTINGS.getScan_settings().getNave();
 	std::vector<int32_t> waveform_sum(WANTED_TICKS, 0);
+
+	ViUInt32 bytes_read;
+	unsigned char read_buf[200100];
+
+	waveform.clear();										// result int16 vector clear and set legth
+	//waveform.reserve(WANTED_TICKS);
+	waveform.resize(WANTED_TICKS, 0);
 
 	for (int jj = 0; jj <AVE_NUM; jj++)
 	{
@@ -148,9 +152,6 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 			Sleep(5);
 		}
 
-
-		ViUInt32 bytes_read;
-		unsigned char read_buf[200100];
 		// 1. Начать чтение
 		viPrintf(DEVICE, ":WAV:BEG CH1\n");
 		// 2. Задать offset и size  
@@ -170,31 +171,21 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 		std::string len_str((char*)read_buf + 2, n_digits);		// the string of data bytes number
 		size_t data_len = std::stoul(len_str);					// integer data bytes number
 
-		waveform.clear();										// result int16 vector clear and set legth
-		waveform.reserve(data_len / 2);
-
-
-
 		// Извлечение int16 из байтов (big-endian)
 		const unsigned char* data_ptr = read_buf + 2 + n_digits;
 
 		for (size_t i = 0; i < data_len; i += 2) {
 			uint16_t raw16 = (data_ptr[i + 1] << 8) | (data_ptr[i]);  // 16-бит слово
 			int16_t sample = (int16_t)(raw16 & 0x3FFF);
-			waveform_sum[i / 2] += sample;
+			waveform[i / 2] += sample;
 		}
 		viPrintf(DEVICE, ":WAV:END\n");
 	}
 
-	
-	
-
-	
-	for (size_t i = 0; i < waveform_sum.size(); ++i) {
-		waveform.push_back(waveform_sum[i] );  
-	}
+	//for (size_t i = 0; i < waveform_sum.size(); ++i) {
+	//	waveform.push_back(waveform_sum[i] );  
+	//}
 	return waveform.size() == WANTED_TICKS;
-
 }
 
 

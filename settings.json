@@ -14,7 +14,7 @@
   "SCAN": {
     "LENGTH": 90.0,
     "NPOINTS": 10,
-    "AVE_NUM": 50
+    "AVE_NUM": 100
   },
   "OSCILLOSCOPE": {
     "HOR_SCALE": "100us",

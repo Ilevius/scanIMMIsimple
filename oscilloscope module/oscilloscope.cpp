@@ -136,17 +136,18 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 	const int AVE_NUM = SETTINGS.getScan_settings().getNave();
 	std::vector<int32_t> waveform_sum(WANTED_TICKS, 0);
 
+	const string WAV_RANGE = ":WAV:RANG 0," + to_string(WANTED_TICKS) + "\n";
+
 	ViUInt32 bytes_read;
 	unsigned char read_buf[200100];
+	char status[16];
 
 	waveform.clear();										// result int16 vector clear and set legth
-	//waveform.reserve(WANTED_TICKS);
 	waveform.resize(WANTED_TICKS, 0);
 
 	for (int jj = 0; jj <AVE_NUM; jj++)
 	{
 		while (1) {
-			char status[16];
 			viQueryf(DEVICE, ":TRIGger:STATus?\n", "%s", status);
 			if (strstr(status, "TRIG") ) break;  // Trigger Done
 			Sleep(5);
@@ -155,7 +156,7 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 		// 1. Начать чтение
 		viPrintf(DEVICE, ":WAV:BEG CH1\n");
 		// 2. Задать offset и size  
-		viPrintf(DEVICE, ":WAV:RANG 0,%s\n", std::to_string(WANTED_TICKS).c_str());
+		viPrintf(DEVICE, WAV_RANGE.c_str());
 		// 3. Читать данные
 		viPrintf(DEVICE, ":WAV:FETC?\n");
 
@@ -182,9 +183,6 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 		viPrintf(DEVICE, ":WAV:END\n");
 	}
 
-	//for (size_t i = 0; i < waveform_sum.size(); ++i) {
-	//	waveform.push_back(waveform_sum[i] );  
-	//}
 	return waveform.size() == WANTED_TICKS;
 }
 

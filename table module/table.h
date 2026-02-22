@@ -29,12 +29,16 @@ public:          // публичный интерфейс
 	bool getYMotorOn() const { return Y_MOTOR_ON; }
 	double getX_HOME_POSITION() const { return X_HOME_POSITION; }
 	double getY_HOME_POSITION() const { return Y_HOME_POSITION; }
+	double getX_FINISH_POSITION() const { return X_FINISH_POSITION; }
+	double getY_FINISH_POSITION() const { return Y_FINISH_POSITION; }
 
 	// Сеттеры (set)
 	void setXMotorOn(bool state) { X_MOTOR_ON = state; }
 	void setYMotorOn(bool state) { Y_MOTOR_ON = state; }
 	void setX_HOME_POSITION(double state) { X_HOME_POSITION = state; }
 	void setY_HOME_POSITION(double state) { Y_HOME_POSITION = state; }
+	void setX_FINISH_POSITION(double state) { X_FINISH_POSITION = state; }
+	void setY_FINISH_POSITION(double state) { Y_FINISH_POSITION = state; }
 
 
 
@@ -45,6 +49,8 @@ private:         // приватные данные
 	bool Y_MOTOR_ON;
 	double X_HOME_POSITION;
 	double Y_HOME_POSITION;
+	double X_FINISH_POSITION;
+	double Y_FINISH_POSITION;
 	bool connected = false;
 	void ErrorsHandler(const char* ErrorMessage, BOOL fCloseComm);
 

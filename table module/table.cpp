@@ -224,3 +224,31 @@ int Table::x_move_from_home_to(double point)
 		return -1;
 	}
 }
+
+
+int Table::y_move_from_home_to(double point)
+{
+	double newPosition = getY_HOME_POSITION() + point;
+
+	auto& SETTINGS = Config::instance();
+	double YMIN = SETTINGS.getTable_settings().getYMin();
+	double YMAX = SETTINGS.getTable_settings().getYMax();
+
+	if (newPosition < YMAX && YMIN < newPosition) {
+		if (acsc_ToPoint(hComm, 0, ACSC_AXIS_1, newPosition, NULL))
+		{
+			printf("ATTENTION!!!	X AXIS   MOTOR  IS  SET TO MOVE TO POSITION %f\r \n", newPosition);
+			return 0;
+		}
+		else
+		{
+			printf("Some error occured while using acsc_ToPoint command \n");
+			return -1;
+		}
+	}
+	else
+	{
+		printf("Demanded position is beyond of axis limits!!  \n");
+		return -1;
+	}
+}

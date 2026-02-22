@@ -6,17 +6,22 @@
 #include <stdint.h> 
 #include <string>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <Windows.h>
 #include <vector>
 #include "../settings module/settings.h"
+#include "../math module/math.h"
+#include "../files module/files.h"
 using namespace std;
-
 #pragma comment(lib, "visa64.lib")
 
 
 Oscilloscope::Oscilloscope()
 {
 	connect();
+	Sleep(60);
+	serial();
 }
 
 int Oscilloscope::connect() 
@@ -106,7 +111,6 @@ int Oscilloscope::setup()
 	return 0;
 }
 
-
 int Oscilloscope::ask_and_print_answer(ViConstString inquire)
 {
 	char buffer[256];
@@ -128,15 +132,14 @@ int Oscilloscope::ask_and_print_answer(ViConstString inquire)
 	}
 }
 
-
-bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
+bool Oscilloscope::getRawDataSum(std::vector<int32_t>& waveform) {
 
 	auto& SETTINGS = Config::instance();
 	const int WANTED_TICKS = SETTINGS.getOscill_settings().getWantedTicks();
 	const int AVE_NUM = SETTINGS.getScan_settings().getNave();
 	std::vector<int32_t> waveform_sum(WANTED_TICKS, 0);
 
-	const string WAV_RANGE = ":WAV:RANG 0," + to_string(WANTED_TICKS) + "\n";
+	const string WAV_RANGE = ":WAV:RANG 47000," + to_string(WANTED_TICKS) + "\n";
 
 	ViUInt32 bytes_read;
 	unsigned char read_buf[200100];
@@ -184,6 +187,26 @@ bool Oscilloscope::readRawWaveform(std::vector<int32_t>& waveform) {
 	}
 
 	return waveform.size() == WANTED_TICKS;
+}
+
+bool Oscilloscope::voltsToFile(double x, double y)
+{
+	std::ostringstream oss;
+	oss << "px"
+		<< std::fixed << std::setprecision(2) << x
+		<< "py"
+		<< std::fixed << std::setprecision(2) << y
+		<< ".txt";
+
+	std::string filename = oss.str();
+
+
+	std::vector<int32_t> my_data;
+	bool res = getRawDataSum(my_data);
+	std::vector<double> volts = rawDataToVolts(my_data, 5);
+	saveWaveformToTxt(volts, filename);
+
+	return true;
 }
 
 

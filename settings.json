@@ -27,7 +27,7 @@
     "TRIG_EDGE_LEVEL": "3",
     "DATA_CH_SCALE": "5v",
     "DEPMEM": "100k",
-    "WANTED_TICKS": 100000,
+    "WANTED_TICKS": 50000,
     "BURST_PERIOD": "3"
   }
 }

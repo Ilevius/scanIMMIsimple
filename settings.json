@@ -1,6 +1,6 @@
 {
-  "COMMON": { 
-    "WORK_FOLDER": "test"
+  "COMMON": {
+    "WORK_FOLDER": "D:\\scanIMMI\\scr\\Tatarkin\\test folder\\"
   },
   "TABLE": {
     "IP_ADRESS": "10.0.0.100",
@@ -17,7 +17,7 @@
     "AVE_NUM": 100
   },
   "OSCILLOSCOPE": {
-    "HOR_SCALE": "100us",
+    "HOR_SCALE": "50us",
     "PRECISION": "14",
     "DATA_CH": "CH1",
     "TRIG_CH": "CH2",

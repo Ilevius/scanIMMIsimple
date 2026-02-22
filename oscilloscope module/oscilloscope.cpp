@@ -191,8 +191,10 @@ bool Oscilloscope::getRawDataSum(std::vector<int32_t>& waveform) {
 
 bool Oscilloscope::voltsToFile(double x, double y)
 {
+	auto& SETTINGS = Config::instance();
 	std::ostringstream oss;
-	oss << "px"
+	//oss << "px"
+	oss << SETTINGS.getCommon_settings().getWorkFolder()<< "Bscan\\" << "px"
 		<< std::fixed << std::setprecision(2) << x
 		<< "py"
 		<< std::fixed << std::setprecision(2) << y

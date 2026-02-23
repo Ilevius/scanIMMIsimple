@@ -110,9 +110,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExecutablePath>C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Program Files\MATLAB\R2018a\extern\include;C:\Program Files\IVI Foundation\VISA\Win64\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\MATLAB\R2018a\extern\lib\win64\microsoft;C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\Program Files\MATLAB\R2018a\bin\win64;C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files\MATLAB\R2018a\bin\win64;C:\Program Files\MATLAB\R2018a\extern\include;C:\Program Files\IVI Foundation\VISA\Win64\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\MATLAB\R2018a\bin\win64;C:\Program Files\MATLAB\R2018a\extern\lib\win64\microsoft;C:\Program Files\IVI Foundation\VISA\Win64\Lib_x64\msc;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='erliz|x64'">
     <LinkIncremental>true</LinkIncremental>

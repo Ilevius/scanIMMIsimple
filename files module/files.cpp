@@ -31,11 +31,16 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 	int Nx = data.size();
 	int Nt = (Nx > 0) ? data[0].size() : 0;
 
+	// Проверка пустых данных
+	if (Nx == 0 || Nt == 0) {
+		matClose(matfp);
+		return false;
+	}
+
 	// 1. data (Nx x Nt)
 	mxArray* mx_data = mxCreateDoubleMatrix(Nx, Nt, mxREAL);
 	double* data_ptr = mxGetPr(mx_data);
 	for (int i = 0; i < Nx; ++i) {
-		// Цикл вместо std::copy
 		for (int j = 0; j < Nt; ++j) {
 			data_ptr[i * Nt + j] = data[i][j];
 		}
@@ -50,13 +55,15 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 		double max_val = data[i][0];
 		double min_val = data[i][0];
 
-		// Поиск max/min без std::max_element
+		// Поиск max/min
 		for (int j = 0; j < Nt; ++j) {
 			if (data[i][j] > max_val) max_val = data[i][j];
 			if (data[i][j] < min_val) min_val = data[i][j];
 		}
 
 		double amp = (max_val - min_val) / 2.0;
+		if (amp == 0.0) amp = 1.0;  //  Защита от деления на ноль!
+
 		for (int j = 0; j < Nt; ++j) {
 			norm_ptr[i * Nt + j] = data[i][j] / amp;
 		}
@@ -67,7 +74,6 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 	// 3. coord_ (1 x Nx)
 	mxArray* mx_coord = mxCreateDoubleMatrix(1, coord_.size(), mxREAL);
 	double* coord_ptr = mxGetPr(mx_coord);
-	// Цикл вместо std::copy
 	for (size_t i = 0; i < coord_.size(); ++i) {
 		coord_ptr[i] = coord_[i];
 	}
@@ -77,7 +83,6 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 	// 4. time_ (1 x Nt)
 	mxArray* mx_time = mxCreateDoubleMatrix(1, time_.size(), mxREAL);
 	double* time_ptr = mxGetPr(mx_time);
-	// Цикл вместо std::copy
 	for (size_t i = 0; i < time_.size(); ++i) {
 		time_ptr[i] = time_[i];
 	}

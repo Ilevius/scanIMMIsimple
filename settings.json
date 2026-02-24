@@ -4,7 +4,7 @@
   },
   "TABLE": {
     "IP_ADRESS": "10.0.0.100",
-    "SIMULATOR": true,
+    "SIMULATOR": false,
     "Y_AXIS": true,
     "X_MIN": -145,
     "Y_MIN": -145,

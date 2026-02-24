@@ -189,12 +189,6 @@ bool Oscilloscope::getRawDataSum(std::vector<int32_t>& waveform) {
 	return waveform.size() == WANTED_TICKS;
 }
 
-bool Oscilloscope::voltsToFile(double x, double y)
-{
-	
-
-	return true;
-}
 
 
 

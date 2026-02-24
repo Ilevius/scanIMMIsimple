@@ -12,7 +12,6 @@ public:
 	int setup();
 	int ask_and_print_answer(ViConstString inquiry);
 	bool getRawDataSum(std::vector<int32_t>& waveform);
-	bool voltsToFile(double x, double y);
 private:
 	ViSession DEVICE;
 	ViSession RESOURCE_MANAGER;

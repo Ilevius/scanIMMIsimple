@@ -40,9 +40,9 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 	// 1. data (Nx x Nt)
 	mxArray* mx_data = mxCreateDoubleMatrix(Nx, Nt, mxREAL);
 	double* data_ptr = mxGetPr(mx_data);
-	for (int i = 0; i < Nx; ++i) {
-		for (int j = 0; j < Nt; ++j) {
-			data_ptr[i * Nt + j] = data[i][j];
+	for (int i = 0; i < Nx; ++i) {        // строка
+		for (int j = 0; j < Nt; ++j) {    // столбец
+			data_ptr[i + j * Nx] = data[i][j];  //column-major для MATLAB
 		}
 	}
 	matPutVariable(matfp, "data", mx_data);
@@ -65,7 +65,7 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 		if (amp == 0.0) amp = 1.0;  //  Защита от деления на ноль!
 
 		for (int j = 0; j < Nt; ++j) {
-			norm_ptr[i * Nt + j] = data[i][j] / amp;
+			norm_ptr[i + j * Nx] = data[i][j] / amp;  // правильный индекс
 		}
 	}
 	matPutVariable(matfp, "data_norm", mx_data_norm);

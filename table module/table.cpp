@@ -157,8 +157,9 @@ double Table::get_x_position()
 	}
 	else
 	{
-		printf("Getting x position error");
-		return 0;
+		// printf("Getting x position error");
+		// return 0;
+		throw std::exception("Getting x position error");
 	}
 }
 

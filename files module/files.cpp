@@ -18,9 +18,12 @@ void saveWaveformToTxt(const std::vector<double>& waveform, const std::string& f
 }
 
 
-bool createBscanMat(const std::vector<std::vector<double>>& data,
+bool createBscanMat(
+	const std::vector<std::vector<double>>& data,
 	const std::vector<double>& coord_,
 	const std::vector<double>& time_,
+	const double dist_step_,
+	const double time_step_,
 	const std::string& filename) {
 
 	MATFile* matfp = matOpen(filename.c_str(), "w");
@@ -88,6 +91,17 @@ bool createBscanMat(const std::vector<std::vector<double>>& data,
 	}
 	matPutVariable(matfp, "time_", mx_time);
 	mxDestroyArray(mx_time);
+
+	// 5. добавляем dist_step_
+	mxArray* mx_dist_step = mxCreateDoubleScalar(dist_step_);
+	matPutVariable(matfp, "dist_step_", mx_dist_step);
+	mxDestroyArray(mx_dist_step);
+
+
+	// 6. добавляем time_step_
+	mxArray* mx_time_step = mxCreateDoubleScalar(time_step_);
+	matPutVariable(matfp, "time_step_", mx_time_step);
+	mxDestroyArray(mx_time_step);
 
 	matClose(matfp);
 	return true;
